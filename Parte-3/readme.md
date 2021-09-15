@@ -96,12 +96,29 @@ Realizar algunos ejemplos con IPython para observar el comportamiento.
 **Nota:** Observar como todas las operaciones donde se modifica el contenido de una lista como ordenar o modificar una lista no es posible realizarlas con una tupla.
 
 ---
-**Ejemplo:** Crear el script `lee_inputs.py` que lea e imprima todos los valores proporcionados en la línea de comandos e indique cuántos argumentos o parámetros son en total.
+**Ejemplo:** Modifica el script `actores-1.py` para que realice las siguientes operaciones:
+
+1. Imprimea el primer actor de la lista
+2. Imprima el último actor de la lista
+3. Imprima todos los actores, menos el primero
+4. Imprima la lista de actores ordenada alfabéticamente
+5. Crea una nueva lista con los actores que inician con `J` e imprimela
+
+---
+**Ejercicio:** Modifica el script `actores-2.py` para que realice las siguientes operaciones:
+
+1. Imprimea el 5o actor de la lista
+3. Imprima todos los actores, menos el último
+4. Imprima la lista de actores ordenada alfabéticamente de la z a la a
+5. Crea una nueva lista con los actores que inician con `R` e imprimela
+
+---
+**Ejemplo:** Crear el script `lee_inputs.py` que lea e imprima todos los valores proporcionados en la línea de comandos e indique cuántos argumentos o parámetros son en total. Convierte tu escript en ejecutable.
 
 A continuación se muestran algunos ejemplos de su ejecución:
   
 ```sh
-$ python lee_inputs.py Hola
+$ ./lee_inputs.py Hola
 Hola
 1 argumentos en total
 
@@ -109,13 +126,13 @@ $ python lee_inputs.py 0.0.0.0
 0.0.0.0
 1 argumentos en total
 
-$ python lee_inputs.py 8.8.8.8 8 8.8
+$ ./lee_inputs.py 8.8.8.8 8 8.8
 8.8.8.8
 8
 8.8
 3 argumentos en total
 
-$ python lee_inputs.py Hola yo me llamo kiko
+$ ./lee_inputs.py Hola yo me llamo kiko
 Hola
 yo
 me
@@ -123,70 +140,42 @@ llamo
 kiko
 5 argumentos en total
 
-$ python lee_inputs.py Hola yo me llamo kiko
-Hola <- str
-yo <- str
-me <- str
-llamo <- str
-kiko <- str
-5 argumentos en total
-
-$ python lee_inputs.py "Hola yo me llamo kiko"
+$ ./lee_inputs.py "Hola yo me llamo kiko"
 Hola yo me llamo kiko
 1 argumentos en total
 ```
 
 ---
-**Ejemplo:** Ahora vamos a crear el script `valida_palindromo.py` que lea una valor desde la línea de comandos e imprima True (Verdadero) si el valor corresponde a una palabra palíndromo, que son aquellas palabras que se leen igual de derecha a izquierda y de izquierda a derecha, de lo contrario deberá imprimir False (Falso).
+**Ejercicio:** Crear el script `palindromo.py` que lea una palabra desde la línea de comandos e imprima la palabra con la letras en orden inverso, si se obtiene la misma palabra que has escrito, entonces la palabra escrita es un palíndromo. No olvides hacer que tu script sea ejecutable.
 
 A continuación se muestran algunos ejemplos de su ejecución:
   
 ```sh
-$ python valida_palindromo.py Hola
-False
-$ python valida_palindromo.py Osa
-False
-$ python valida_palindromo.py Oso
-True
-$ python valida_palindromo.py Anilina
-True
+$ ./palindromo.py hola
+aloh
+$ ./palindromo.py osa
+aso
+$ ./palindromo.py oso
+oso
+$ ./palindromo.py anilina
+anilina
 ```
+¿Podrías encontrar alguna otra palabra que sea un palíndromo? 
 
 ---
-**Ejercicio:** Crea el script `valida_ip4_192.168.1.py` que lea desde la línea de comandos un argumento e imprima `True` si la IP4 pertenezcan a la subred `192.168.1.0`, de lo contrario imprime `False`.
+**Ejercicio:** Crea el script `subred_ipv4.py` que lea desde la línea de comandos una dirección IPV4 y asumiendo que la máscara de red es 255.255.255.0 imprima la dirección IPV4 correspondiente a la subred.
 
 ```sh
-$ python valida_ip4_192.168.1.py 256.255.255.0
-False
+$ python subred_ip4.py 10.42.0.10
+10.42.0.0
 
-$ python valida_ip4_192.168.1.py 192.168.0.1
-False
+$ python subred_ip4.py 192.168.0.1
+192.168.0.0
 
-$ python lee_ip4_192.168.1.py 192.168.1.83
-True
+$ python subred_ip4.py 8.8.8.8
+8.8.8.0
 ```
-
----
-**Ejemplo:** Dada una lista de 5 nombres de archivos, crea el script `logitud_nombres.py` que imprima el nombre de cada uno y enseguida su longitud.
-
-```
-archivos = (
-    "sublime_text_build_4113_mac.zip",
-    "Tabulado.csv",
-    "Telegram Desktop",
-    "terminal-cheatsheet.zip",
-    "Typora-linux-x64.tar.gz"
-)
-```
-
-```sh
-$ python longitud_nombres.py
-sublime_text_build_4113_mac.zip 31
-Tabulado.csv 12
-Telegram Desktop 16
-terminal-cheatsheet.zip 23
-Typora-linux-x64.tar.gz 23
-```
+**TIP:** Convierte el texto de la dirección IP a una lista, entonces modifica los elementos de la lista según convenga y luego crea un nuevo texto usando los elementos de la lista.
 
 ### Conjuntos (`set()`)
 
@@ -198,7 +187,7 @@ Una de las aplicaciones más comunes es en el caso de contar con una lista de el
 
 eliminar las réplicas, usar IPython para encontrar el resultado.
 
-### Tipo de dato `dict()`
+### Diccionarios (`dict()`)
 
 El tipo de dato `dict()` se conoce como Diccionarios (o dict) en Python, es similar al tipo de datos `struct` u `object` de otros lenguajes de programación, así que un Diccionario es una colección de parejas de datos (llave:valor) no necesariamente del mismo tipo sin un órden determinado, cada elemento puede ser modificado por lo que es un tipo de dato **Mutable**. Los diccionarios se usan cuando se requiere de asignar nombre a cada elemento de la colección en lugar de usar índices núméricos como el caso de las listas.
 
@@ -241,6 +230,27 @@ Out[10]: {}
 In [11]: dict()
 Out[11]: {}
 ```
+
+### Operaciones con diccionarios
+
+Las operaciones que se pueden realizar con diccionarios son las siguientes:
+
+- Indezación: `[]`
+- Obtener longitud: `len(diccionario)`
+- Métodos diccionarios:
+  - `.copy()`
+  - `.get()`
+  - `.items()`
+  - `.keys()`
+  - `.update()`
+  - `.values()`
+- Agregar nuevos elementos: `dict[llave]=valor`
+- Modificanción diccionarios: `dict[llave]=nuevo_valor`
+
+Realizar algunos ejemplos con IPython para observar el comportamiento.
+
+**Indezación:**
+
 Para acceder a los elementos de un Diccionario hacemos uso de la llave que es el índice con el que podemos acceder a algún valor, veamos algunos ejemplos:
 ```python
 In [12]: dict_1 = {"campo_1":"valor 1", "campo_2": 2, "campo_3": 3.0}
@@ -279,87 +289,21 @@ KeyError: 3
 ```
 Se observa como al final al intentar acceder al elemento la llave 3, Python muestra un error porque la llave 3 no existe.
 
-### Diccionarios
-
-Los diccionarios en Python, son un tipo de dato muy flexible que permite almacenar valores usando una llave como referencia, así que por cada valor se necesita de una llave, no mantienen un orden de los elementos, pero si son mutables.
-
-A continuación se muestras varias maneras de inicializar o crear un diccionario haciendo uso de IPython para obtener un resultado de forma inmediata:
-
-```python
-In [1]: # Creando un diccionario de 5 elementos
-In [2]: {0:"cero", 1:"uno", 2:"dos", 3:"tres", 4:"cuatro"}
-Out[2]: {0: 'cero', 1: 'uno', 2: 'dos', 3: 'tres', 4: 'cuatro'}
-
-In [3]: # Creando un diccionaro con llaves de tipo cadena
-In [4]: {"cero": 0, "uno":1, "dos":2, "tres":3, "cuatro": 4}
-Out[4]: {'cero': 0, 'uno': 1, 'dos': 2, 'tres': 3, 'cuatro': 4}
-
-In [5]: # Creando un diccionario mixto
-In [6]: {'cero': 0, 1: "uno", 2.5: "decimal", 'lista': [1,2,3]}
-Out[6]: {'cero': 0, 1: 'uno', 2.5: 'decimal', 'lista': [1, 2, 3]}
-```
-
-También se puede crear un diccionario vacío con:
-```python
-In [10]: {}
-Out[10]: {}
-
-In [11]: dict()
-Out[11]: {}
-```
-
-### Operaciones con diccionarios
-
-Las operaciones que se pueden realizar con diccionarios son las siguientes:
-
-- Indezación: `[]`
-- Obtener longitud: `len(diccionario)`
-- Métodos diccionarios:
-  - `.copy()`
-  - `.get()`
-  - `.items()`
-  - `.keys()`
-  - `.update()`
-  - `.values()`
-- Agregar nuevos elementos: `dict[llave]=valor`
-- Modificanción diccionarios: `dict[llave]=nuevo_valor`
-
-Realizar algunos ejemplos con IPython para observar el comportamiento.
-
 ---
-**Ejemplo:** Ahora vamos a crear el script `lee_archivo.py` que lea e imprima los datos de un archivo pasados desde la línea de comandos como se indica a continuación:
-```
-Sintaxis:
+**Ejemplo:** Modificar el script `superheroes.py` para que imprime la información del super heroe en forma de tabla.
 
-lee_archivo.py NOMBRE TAMAÑO
 ```
-Luego el script deberá imprimir como resultado un diccionario incluyendo el nombre, extensión y tamaño.
+python superheroes-1.py 
+Name             | Iron Man                                
+Realname         | Tony Stark                              
+Team             | Avengers                                
+Firstappearance  | 1963                                    
+Createdby        | Stan Lee                                
+Publisher        | Marvel Comics                           
+Imageurl         | https://www.simplifiedcoding.net/demos/marvel/ironman.jpg
+Bio:
+		Anthony Edward Stark, the son of wealthy industrialist and head of Stark Industries, Howard Stark, and Maria Stark. A boy genius, he enters MIT at the age of 15 to study electrical engineering and later receives master's degrees in electrical engineering and physics. After his parents are killed in a car accident, he inherits his father's company.
 ```
-{
-    "nombre": "nombre_archivo.ext",
-    "ext": "ext",
-    "tamanio": 12345
-}
-```
-
-A continuación se muestran algunos ejemplos de su ejecución:
-  
-```sh
-$ python lee_archivo.py passwd 512
-{
-    "nombre":"passwd",
-    "ext":"",
-    "tamanio":512
-}
-
-$ python lee_archivo.py proceso.sh 1024
-{
-    "nombre":"proceso.sh",
-    "ext":"sh",
-    "tamanio":1024
-}
-```
-Recuerda hacer uso de las funciones `int()` o `split()` para obtener la extensión y convertir el tamaño en entero.
 
 ---
 **Ejercicio:** Modifica el script `imprime_archivos.py` para que imprima la lista de archivo ya contenida en el script en forma tabular.
