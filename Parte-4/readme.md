@@ -142,9 +142,105 @@ for i in range(10,21):
 Nota que se ha colocado 21 y no 20 como límite superior.
 
 ---
-**Ejemplo:** Ahora vamos a crear el script `pyls.py` que imprima la lista de archivos de una carpeta, si no se proporciona una se imprime la lista de archivos de la carpeta actual. Haz tu script ejecutable y copialo a una carpeta que esté en el PATH.
+**Ejemplo:** Crear el script `crash.py` para que realice lo siguiente:
+
+1. Solicitar un número entero al usuario mayor que cero
+2. Si el usuario proporciona un valor que no esté en el rango que imprima un mensaje de error
+3. Si el usuario proporciona un valor que no sea entero que imprima un mensaje de error
+4. Crear una lista con los números enteros desde el 1 hasta el proporcionado por el usuario
+5. Imprimir la lista de números en la salida estándar
+
+**ADVERTENCIA:** Este programa no se llama `crash.py` por nada y si tu equipo cuenta con 4 GB o menos es posible que no puedas generar listas de números superiores a 10 millones, con 8GB podrías llegar a 100 o 1 000 millones, la razón es porque la lista de números primero se crea completa, es decir, una lista que incluye los 1000 millones de número por ejemplo y eso se almacena en la memoria RAM, así que podrías monitorear el uso de RAM para evitar que tu sistemae operativo colapse. **FIN DE LA ADVERTENCIA**
 
 A continuación se muestran algunos ejemplos de su ejecución:
+```
+./crash-rt.py
+Dame un número entero mayor que cero [1-...]: 10
+Creando lista de números ...
+Lista creada!
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+```
+
+---
+**Ejemplo:** Modifica el script `crash.py` para que realice lo siguiente:
+
+1. Crea una nueva lista donde cada elemento sea la raíz cuadrada del correspondiente número en la lista original
+
+Ejemplo del resultado:
+
+```
+Dame un número entero mayor que cero [1-...]: 10
+Creando lista de números ...
+Calculando raices ...
+
+1.0
+1.4142135623730951
+1.7320508075688772
+2.0
+2.23606797749979
+2.449489742783178
+2.6457513110645907
+2.8284271247461903
+3.0
+3.1622776601683795
+```
+
+---
+**Ejemplo:** Crear el script `no-crash.py` para que realice lo siguiente:
+
+1. Solicitar un número entero al usuario mayor que cero
+2. Si el usuario proporciona un valor que no esté en el rango que imprima un mensaje de error
+3. Si el usuario proporciona un valor que no sea entero que imprima un mensaje de error
+4. En lugar de crear una lista con **todos** los números utiliza in *generador* de números como `range()` y crean un rango de número enteros desde el 1 hasta el proporcionado por el usuario.
+5. Imprimir la lista de números en la salida estándar
+
+**ADVERTENCIA:** Este programa puede crear adicción ya que puedes crear listas de números tan grande como tu imaginación te lo permita, no importando si tu computadora es del año de Chabelo!
+
+A continuación se muestran algunos ejemplos de su ejecución:
+```
+./no-crash.py
+Dame un número entero mayor que cero [1-...]: 1000000000000
+
+Creando el generador de números ...
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+...
+```
+Puedes monitorear los recursos ocupados por éste programa y verás que no importa el número que el usuario proporcione, la memoria usada por el programa será la misma.
+
+---
+**Ejemplo:** Ahora vamos a crear el script `pyls.py` que haga lo siguiente:
+
+1. Solicite el nombre de una carpeta en la línea de comandos, si el usuario no proporciona una, entonces se usa la carpeta actual (`"."`)
+2. Obtener la lista de archivos de la carpeta indicada
+3. Imprimir la lista de archivo en la salida estándar
+4. Has que tu script sea ejecutable
+5. Copia tu script a una carpeta que esté en la variable PATH del sistema
+6. Crea una liga simbólica (symbolic link) a tu script con el nombre `pyls`
+
+Ahora ejecuta el script como si fuera un comando más del sistema operativo, por ejemplo:
   
 ```sh
 $ pyls
@@ -172,7 +268,7 @@ dd
 ```
 
 ---
-**Ejercicio:** Modifica el script `pyls.py` para que también imprima el tamaño de cada archivo en bytes, si es una carpeta imprime el tamaño cero.
+**Ejercicio:** Modifica el script `pyls.py` para que también imprima el tamaño de cada archivo en bytes, si es una carpeta imprime el tamaño cero. El tamaño en bytes se puede obtener usando la función `os.path.getsize(nombre)` del mismo módulo `os` ya importado. Para imprimir la lista en forma tabular recuerda hacer uso de las f-strings de Python.
 
 A continuación se muestran algunos ejemplos de su ejecución:
   
@@ -184,6 +280,7 @@ $ pyls
 ```
 
 ### Estructura de control `while`
+
 La instrucción `while` nos permite repetir un conjunto de instrucciones tantas veces como una condición sea verdadera, pudiendo repetir o realizar ciclos que se repiten unas cuantas veces (1, 2, o 3 veces), hasta crear un ciclo infinito.
 
 Copia el siguiente código en PythonTutor y observa como varía el valor de la variable `i` y además observa en que momento es cuando se termina el ciclo `while`
@@ -211,21 +308,514 @@ $
 ```
 
 ---
-**Ejercicio:** Ahora tienes que crear el script `lee-ip.py` que lea una dirección IP desde la línea de comandos e imprima el mensaje "Válidad" si la dirección IP es correcta o imprima el mensaje "Inválidad" en caso contrario.
+**Ejercicio:** Ahora tienes que crear el script `valida-ip4.py` que realice:
 
-**Nota**: Se recomienda hacer uso del método de cadenas `"".split()` para poder separar cada uno de los octetos.
+1. Lea una dirección IP4 desde la línea de comandos
+2. Realizar las comprobaciones necesarias para determinar si la dirección IP4 es válida o no
+3. Imprimir el mensaje "Válidad" si la dirección IP es correcta o el mensaje "Inválidad" en caso contrario.
+4. Has tu script ejecutable
+
+**Tip**: Se recomienda hacer uso del método de cadenas `"".split()`, de instrucciones `if` y `for`.
 
 A continuación se muestran algunos ejemplos de su ejecución:
   
 ```sh
-$ python lee-ip.py 0.0.0.0
+$ ./valida-ip4.py 0.0.0.0
 Válida
-$ python lee-ip.py 255.255.0.0
+$ ./valida-ip4.py 255.255.0.0
 Válida
-$ python lee-ip.py 127.0.0.1
+$ ./valida-ip4.py 127.0.0.1
 Válida
-$ python lee-ip.py 256.255.255.0
+$ ./valida-ip4.py 256.255.255.0
 Inválida
-$ python lee-ip.py -8.8.8.8
+$ ./valida-ip4.py -8.8.8.8
 Inválida
 ```
+
+### Funciones
+
+En la elaboración de programas a veces existen línea de código que comienzan a repetirse con frecuencia y que tenemos que escribir una y otra vez o si nuestro script comienza a tener muchas líneas, entonces posiblemente nos gustaría poder organizar nuestro script en bloques más pequeños que vayan resolviendo una tarea a la vez, para esto y posiblemente otra razones más es cuando se hace uso de las funciones.
+
+En Python la estructura de una función es la siguiente:
+
+```python
+def nombre_funcion(arg1, arg2, ..., argn):
+    """ Descripción de la función """
+    -bloque de código-
+    -de la función-
+    
+    return -sólo si hay que regresar un valor-
+```
+
+Veamos como trabajan las funciones realizando los siguientes ejercicios con IPython:
+
+```python
+In [1]: # Creando la función de suma de dos números                             
+
+In [2]: def suma(x, y): 
+   ...:     """ Regresa la suma de x más y """ 
+   ...:     suma = x + y 
+   ...:     return suma 
+   ...:                                                                         
+
+In [3]: suma(5, 11)                                                             
+Out[3]: 16
+
+In [4]: print(suma(5, 11))                                                      
+16
+
+In [4]: total = suma(5, 11)
+
+In [4]: total
+16
+
+In [5]: # Creando una función que imprima el total de una operación             
+
+In [6]: def imprime_total(total): 
+   ...:     """ Imprime el valor de total con formato """ 
+   ...:     print(f"El total de la operación es {total}") 
+   ...:                                                                         
+
+In [7]: imprime_total(100)                                                      
+El total de la operación es 100
+
+In [8]: imprime_total(1000.50)                                                  
+El total de la operación es 1000.5
+
+In [8]: imprime_total(total)                                                  
+El total de la operación es 16
+```
+
+---
+**Ejemplo:** Ahora vamos a modificar el script `pyls.py` para que realice:
+
+1. Con la lista de archivos obtenida, obtenga además la fecha de modificación de cada archivo
+2. Teniendo los datos nombre, tamaño y fecha, crea una nueva lista con la siguiente estructura:
+
+```
+lista = [
+    ["profile", 512, "15-09-2020"],
+    ["sistema.sh", 1024, "16-09-2020"],
+    ["procedimiento.pdf", 123456, "17-09-2020",
+    ["get_pass.pl", 65324, "18-09-2020"
+]
+```
+
+3. Crea una función llamada `imprime_tabla(lista)` que recibe el parámetro `lista` con los datos de los archivos como se menciona en el punto anterior e imprima la lista de forma tabular con las columnas: **Tamaño**, **Fecha**, **Nombre** y al final imprima el total de bytes usado por todos los archivos.
+
+Ejemplo de ejecución:
+
+```sh
+$ ./pyls.py
+      1028  17-09-2021  pyls-rt-funciones.py
+     17606  17-09-2021  readme.md
+       898  16-09-2021  crash-rt.py
+       679  17-09-2021  pyls-rt.py
+       517  16-09-2021  pyls.py
+      4096  15-09-2021  .ipynb_checkpoints
+       453  16-09-2021  no-crash-rt.py
+       467  16-09-2021  crash.py
+      1001  16-09-2021  crash-rt-raiz.py
+
+El total de bytes es de 26745
+
+```
+
+**Ejercicio:** Modificar el script `pyls.py` para que la lista de archivos final incluyendo los tres campos sea obtenida por una función llamada `get_archivos(carpeta)`, luego en la zona principal usa la función y asigna el resultado a tu variable `lista`, elimina el código que ya no necesites en la zona principal. 
+
+Ejemplo de ejecución:
+```sh
+$ ./pyls.py
+      1028  17-09-2021  pyls-rt-funciones.py
+     17606  17-09-2021  readme.md
+       898  16-09-2021  crash-rt.py
+       679  17-09-2021  pyls-rt.py
+       517  16-09-2021  pyls.py
+      4096  15-09-2021  .ipynb_checkpoints
+       453  16-09-2021  no-crash-rt.py
+       467  16-09-2021  crash.py
+      1001  16-09-2021  crash-rt-raiz.py
+
+El total de bytes es de 26745
+
+```
+
+Para más información acerca de la lista de módulos y la lista de funciones de cada módulo se puede consultar la documentación oficial de Python en:
+[https://docs.python.org/3/library/index.html](https://docs.python.org/3/library/index.html)
+
+### Generadores
+
+Ya hemos usado generadores, como el caso de `range()`, así que nosotros podemos crear también nuestros generadores para eficientar la ejecución de nuestros programas y primero tenemos que saber que un generador en una función que regresa un valor, generalmente una lista, pero que en lugar de regresa toda la lista de golpe, va regresando elemento a elemento como lo hace `range()`.
+
+En Python la estructura de un generador es el siguiente:
+
+```python
+def nombre_generador(arg1, arg2, ..., argn):
+    """ Descripción del  generador """
+    -bloque de código-
+    -de la función-
+    -ciclo que genera los valores:-
+        -procesamiento de los valores-
+        yield -valor a regresar-
+```
+
+Veamos como funcionaría un generador tomando como referencia como funcionaría una función primero:
+
+```python
+In [1]: # Creando la función que regresa una lista de `n` números elevado al cuadrado
+
+In [2]: def lista_al_cuadrado(n): 
+   ...:     """ Regresa una lista de números elevados al cuadrado hasta n """ 
+   ...:     lista_de_cuadrados = [] 
+   ...:     for i in range(1, n+1):
+   ...:         lista_de_cuadrados.append(i ** 2)
+   ...:     return lista_de_cuadrados
+   ...:                                                                         
+
+In [3]: lista_al_cuadrado(10)
+Out[3]: [1, 4, 9, 16, 25, 36, 42, 64, 91, 100]
+
+In [3]: numeros = lista_al_cuadrado(15)
+
+In [3]: numeros
+Out[3]: [1, 4, 9, 16, 25, 36, 42, 64, 91, 100, 121, 144, 169, 196, 225]
+
+In [3]: numeros = lista_al_cuadrado(10_000_000)
+
+In [3]: len(numeros)
+Out[3]: 10000000
+
+In [1]: # Creando un generador que genere una lista de `n` números elevado al cuadrado
+
+In [2]: def lista_al_cuadrado_g(n):
+   ...:     """ Regresa un generador de números elevados al cuadrado hasta n """ 
+   ...:     for i in range(1, n+1):
+   ...:         yield i ** 2
+   ...:                                                                         
+
+In [3]: lista_al_cuadrado_g(10)
+Out[3]: <generator object lista_al_cuadrado_g at 0x7feb1d538d50>
+
+In [3]: list(lista_al_cuadrado_g(15))
+Out[3]: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225]
+
+In [3]: numeros = lista_al_cuadrado_g(50)
+In [6]: numeros
+Out[6]: <generator object lista_al_cuadrado_g at 0x7feb1dd5b950>
+
+In [7]: for i in numeros:
+   ...:     print(i)
+   ...: 
+1
+4
+9
+...
+2304
+2401
+2500
+
+In [8]: for i in lista_al_cuadrado_g(1_000_000_000_000):
+   ...:     print(i)
+   ...: 
+1
+4
+9
+...
+```
+Es parecido a `range()` pero ahora con nuestro propio generador.
+
+---
+**Ejemplo:** Vamos a modificar el script `pyls.py` para que la función de `get_archivos()` se convierta en un generador.
+
+Ejemplo de ejecución:
+```sh
+$ ./pyls.py 
+      1038  17-09-2021  pyls-rt-funciones.py
+     20768  17-09-2021  readme.md
+       898  16-09-2021  crash-rt.py
+       679  17-09-2021  pyls-rt.py
+       517  16-09-2021  pyls.py
+      4096  15-09-2021  .ipynb_checkpoints
+       453  16-09-2021  no-crash-rt.py
+       467  16-09-2021  crash.py
+      1001  16-09-2021  crash-rt-raiz.py
+      1027  17-09-2021  pyls-rt-generadores.py
+
+El total de bytes es de 30944
+```
+
+---
+**Ejercicio:** Crea un script llamado genera-archivos.py que reciba un número entero mayor que cero desde la línea de comando y genere tantos nombres de archivos como el valor de `n` y los nombres tendrán la forma `file-0000001.txt`, `file-0999999.txt` o `file-1000000.txt`
+
+**Nota:** Recuerda hacer uso de funciones y generadores.
+
+Ejemplo de ejecución:
+
+```sh
+$ ./genera_archivos.py 10
+file-0000001.txt
+file-0000002.txt
+file-0000003.txt
+...
+file-0000010.txt
+```
+
+Intenta generar la lista para 1000 millones, si has hecho uso correcto de generadores, tu equipo no debería de colapsar, de lo contrario prepárate para un desastre!
+
+Adicionalmente si tuvieras las necesidad de almacenar la lista de archivos generada en un archivo podrías ejecutar el script de la forma:
+
+```
+$ ./genera-archivos.py 1000000 > lista_1millon.txt
+
+$ head lista_1millon.txt
+file-0000001.txt
+file-0000002.txt
+file-0000003.txt
+file-0000004.txt
+file-0000005.txt
+file-0000006.txt
+file-0000007.txt
+file-0000008.txt
+file-0000009.txt
+file-0000010.txt
+
+$ tail lista_1millon.txt
+file-0999991.txt
+file-0999992.txt
+file-0999993.txt
+file-0999994.txt
+file-0999995.txt
+file-0999996.txt
+file-0999997.txt
+file-0999998.txt
+file-0999999.txt
+file-1000000.txt
+```
+
+### Creando scripts profesionales usando el módulo `click`
+
+Hasta el momento se han realizado varios script que se pueden ejecutar desde la terminal pero hasta el momento no existe un manual de uso de estos scripts o una opción del tipo `--help`, se pueden agregar y programar, pero ya existen varios módulos que realizan esa tarea y de muy buena forma, para ello se hará uso del módulo `click` que no es parte de la librería estándar, así que su documentación se puede encontrar en la página siguiente:
+
+https://click.palletsprojects.com/en/7.x/
+
+Lo primero es instalar el módulo, para eso realizamos la siguiente instrucción:
+```sh
+$ pip install click
+Collecting click
+  Using cached https://files.pythonhosted.org/packages/d2/3d/fa76db83bf75c4f8d338c2fd15c8d33fdd7ad23a9b5e57eb6c5de26b430e/click-7.1.2-py2.py3-none-any.whl
+Installing collected packages: click
+Successfully installed click-7.1.2
+
+$
+```
+
+---
+**Ejemplo:** Vamos a crear el script `hola-click.py` que imprima un saludo al nombre del usuario pasado en la línea de comandos, veamos un ejemplo:
+
+```sh
+$ ./hola-click.py Tux
+Hola Tux desde Click!
+
+$ ./hola-click.py Octocat
+Hola Octocat desde Click!
+
+$ ./hola-click.py
+Usage: hola-click.py [OPTIONS] NOMBRE
+Try 'hola-click.py --help' for help.
+
+Error: Missing argument 'NOMBRE'.
+
+$
+```
+Observa como tu script ahora te muestra un mensaje de error indicando la causa, en este caso porque el parámetro `NOMBRE` es obligatorio, pero además nos indica que podemos hacer uso de la opción `--help`, veamos que pasa:
+
+```sh
+$ ./hola-click.py --help
+Usage: hola-click.py [OPTIONS] NOMBRE
+
+  Imprime un saludo al usuario nombre en la salida estándar
+
+Options:
+  --help  Show this message and exit.
+
+$
+```
+Ahora nuestro escript ya cuenta con toda una funcionalidad como si de un script profesional se tratara, tan sólo con unas cuantas líneas.
+
+---
+**Ejemplo:** Ahora copia el script anterior y llámalo `hola-click-n.py` y modifícalo para que cuente con la opción `-n N`, donde N indica la cantidad de veces que será impreso el mensaje en la salida estándar, si la opción no es proporcionada el mensaje de debe imprimir una vez. Veamos un ejemplo:
+
+```sh
+$ ./hola-click-n.py Tux
+Hola Tux desde Click!
+
+$ ./hola-click-n.py -n 3 Tux
+Hola Tux desde Click!
+Hola Tux desde Click!
+Hola Tux desde Click!
+
+$ ./hola-click-n.py Tux -n 3
+Hola Tux desde Click!
+Hola Tux desde Click!
+Hola Tux desde Click!
+
+$ ./hola-click-n.py --help
+Usage: hola-click-n.py [OPTIONS] NOMBRE
+
+  Imprime un saludo al usuario nombre en la salida estándar
+
+Options:
+  -n INTEGER  Indica la veces a imprimir el mensaje
+  --help      Show this message and exit.
+
+```
+observar que ahora en la ayuda ya existe la opción `-n` con el texto descriptivo y todo gracias a `Click`.
+
+---
+**Ejemplo:** Vamos a realizar lo siguiente:
+
+1. Copiar el script `pyls.py` con el nombre `lss.py`
+2. Agregar un función `main()` que ejecute todo el código de la zona principal
+3. Incluir el uso del módulo `click`para que realice las mismas tareas pero haciendo uso del módulo `click`.
+4. La opción `--help` deberá proporcionar una descripción y ayuda del script.
+5. Corregir cualquier error que se presente.
+
+```sh
+$ ./lss.py 
+      1038  17-09-2021  pyls-rt-funciones.py
+     20768  17-09-2021  readme.md
+       898  16-09-2021  crash-rt.py
+       679  17-09-2021  pyls-rt.py
+       517  16-09-2021  pyls.py
+      4096  15-09-2021  .ipynb_checkpoints
+       453  16-09-2021  no-crash-rt.py
+       467  16-09-2021  crash.py
+      1001  16-09-2021  crash-rt-raiz.py
+      1027  17-09-2021  pyls-rt-generadores.py
+
+El total de bytes es de 30944
+
+$ ./lss.py --help
+Usage: lss.py [OPTIONS] [CARPETA]
+
+  Imprime en la salida estándar la lista de archivo de RUTA, si la ruta no
+  se indica se usa la carpeta actual.
+
+Options:
+  --help  Show this message and exit.
+
+$
+```
+
+Ahora copia el script a una ruta de ejecución (revisar la variable PATH) y crea un enlace simbólico con el nombre `lss` y ahora ejecuta el comando desde cualquier lugar:
+
+```
+$ lss --help
+Usage: lss [OPTIONS] [RUTA]
+
+  Imprime en la salida estándar la lista de archivo de RUTA, si la ruta no
+  se indica se usa la carpeta actual.
+
+Options:
+  --help  Show this message and exit.
+
+$
+```
+
+---
+**Ejemplo:** Modifica el script `lss.py` para agregar la opción `--sort` para que imprima la lista de archivos ordenada alfabéticamente. Algunos ejemplos de ejecución:
+
+```sh
+$ ./lss.py --help
+
+$ ./lss-rt.py --sort
+      4096  15-09-2021  ./.ipynb_checkpoints/
+      1001  16-09-2021  ./crash-rt-raiz.py
+       898  16-09-2021  ./crash-rt.py
+       467  16-09-2021  ./crash.py
+       906  17-09-2021  ./genera-archivos-rt.py
+  17000000  17-09-2021  ./lista_1millon.txt
+      1500  17-09-2021  ./lss-rt.py
+       453  16-09-2021  ./no-crash-rt.py
+      1038  17-09-2021  ./pyls-rt-funciones.py
+      1027  17-09-2021  ./pyls-rt-generadores.py
+       679  17-09-2021  ./pyls-rt.py
+       517  16-09-2021  ./pyls.py
+     22664  17-09-2021  ./readme.md
+
+El total de bytes es de 17035246
+```
+
+---
+**Ejercicio:** Modifica el script `lss.py` para agregar la opción `---reverse` para que imprima la lista de archivos ordenada alfabéticamente de forma descendente. Algunos ejemplos de ejecución:
+
+```sh
+$ ./lss.py --help
+Usage: lss-rt.py [OPTIONS] [CARPETA]
+
+  Imprime la lista de archivoen CARPETA, si CARPETA no se proporciona,
+  imprime la lista de archivos de la carpeta actual.
+
+Options:
+  --sort     Imprime la lista ordenada alfabéticamente
+  --reverse  Imprime la lista ordenada alfabéticamente descendentemente
+  --help     Show this message and exit.
+
+./lss-rt.py --sort --reverse
+     24059  17-09-2021  ./readme.md
+       517  16-09-2021  ./pyls.py
+       679  17-09-2021  ./pyls-rt.py
+      1027  17-09-2021  ./pyls-rt-generadores.py
+      1038  17-09-2021  ./pyls-rt-funciones.py
+       453  16-09-2021  ./no-crash-rt.py
+      1682  17-09-2021  ./lss-rt.py
+  17000000  17-09-2021  ./lista_1millon.txt
+       906  17-09-2021  ./genera-archivos-rt.py
+       467  16-09-2021  ./crash.py
+       898  16-09-2021  ./crash-rt.py
+      1001  16-09-2021  ./crash-rt-raiz.py
+      4096  15-09-2021  ./.ipynb_checkpoints/
+
+El total de bytes es de 17036823
+```
+
+---
+**Ejercicio:** Modifica el script `lss.py` para agregar la opción `---sort-size` para que imprima la lista de archivos ordenada en base al tamaño en bytes. Algunos ejemplos de ejecución:
+
+```sh
+$ ./lss.py --help
+Usage: lss-rt.py [OPTIONS] [CARPETA]
+
+  Imprime la lista de archivoen CARPETA, si CARPETA no se proporciona,
+  imprime la lista de archivos de la carpeta actual.
+
+Options:
+  --sort       Imprime la lista ordenada alfabéticamente
+  --sort-size  Imprime la lista ordenada por tamaño
+  --reverse    Imprime la lista ordenada descendentemente
+  --help       Show this message and exit.
+
+$ ./lss-rt.py --sort-size --reverse
+  17000000  17-09-2021  ./lista_1millon.txt
+     25571  17-09-2021  ./readme.md
+      4096  15-09-2021  ./.ipynb_checkpoints/
+      1906  17-09-2021  ./lss-rt.py
+      1038  17-09-2021  ./pyls-rt-funciones.py
+      1027  17-09-2021  ./pyls-rt-generadores.py
+      1001  16-09-2021  ./crash-rt-raiz.py
+       906  17-09-2021  ./genera-archivos-rt.py
+       898  16-09-2021  ./crash-rt.py
+       679  17-09-2021  ./pyls-rt.py
+       517  16-09-2021  ./pyls.py
+       467  16-09-2021  ./crash.py
+       453  16-09-2021  ./no-crash-rt.py
+
+El total de bytes es de 17038559
+```
+
+**Tip:** El uso de generadores no permite ordenar los elementos, así que se tiene que crear nuevamente la segunda lista de archivos y luego ordenarla. Para ordenar una lista de listas en base a un campo o elemento de las sublistas como el tamaño que está en la posición `1`, es necesario usar la función `sort()` en la forma:
+
+`lista.sort(key=lambda v: v[N])`
+
+donde `N` es el índice de la posición de la columna o elemento a usar para ordenar, por ejemplo usando un valor de `0` se ordenaría por nombre.
+
