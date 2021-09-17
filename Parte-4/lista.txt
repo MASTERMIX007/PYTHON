@@ -1,0 +1,9 @@
+lee_entero.py
+lee_octeto.py
+crash.py
+pyls.py
+readme.md
+hola-for.py
+no-crash.py
+numeros.txt
+lista.txt

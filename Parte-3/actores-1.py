@@ -25,3 +25,24 @@ ACTORES = [
 ]
 
 # Tu código a partir de aquí!
+print( ACTORES[0] )  # Primer actor de la lista
+print( ACTORES[-1] )  # Último actor de la lista
+print( ACTORES[1:] )  # Todos los actores menos el primero
+ACTORES.sort()
+print( ACTORES )  # Actores ordenados alfabéticamente
+actores_j = ACTORES[10:13]
+print( actores_j )  # Actores que inician con J
+
+
+
+
+
+
+
+
+
+
+
+
+
+

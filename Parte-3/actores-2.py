@@ -30,3 +30,18 @@ ACTORES = (
 # 4. Crea una nueva lista con los actores que inician con R e imprimela
 
 # Tu código a partir de aquí!
+print( ACTORES[4] )
+print( ACTORES[:-1] )
+actores = list(ACTORES)
+actores.sort()
+actores.reverse()
+print( actores )
+actores_r = actores[2:7]
+print( actores_r )
+
+
+
+
+
+
+

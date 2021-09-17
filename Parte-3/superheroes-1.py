@@ -22,19 +22,3 @@ print(f"{llave.title():16} | {valor:40}")
 llave = "team"
 valor = superheroe[llave]
 print(f"{llave.title():16} | {valor:40}")
-llave = "firstappearance"
-valor = superheroe[llave]
-print(f"{llave.title():16} | {valor:40}")
-llave = "createdby"
-valor = superheroe[llave]
-print(f"{llave.title():16} | {valor:40}")
-llave = "publisher"
-valor = superheroe[llave]
-print(f"{llave.title():16} | {valor:40}")
-llave = "imageurl"
-valor = superheroe[llave]
-print(f"{llave.title():16} | {valor:40}")
-llave = "bio"
-valor = superheroe[llave]
-print(f"{llave.title()}:")
-print(f"{valor:59}")

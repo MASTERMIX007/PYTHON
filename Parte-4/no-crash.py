@@ -17,14 +17,14 @@ else:
 		print("Error: el número tiene que ser mayor a cero!")
 	else:
 		# si llegamos aquí es que no hay errores y podemos crear la lista
-		print("Creando lista de numeros ...")
-		numeros_lst = list( range(1, n+1) )  # -> [1, 2, 3, ...]
-		print("Creando lista de raices ...")
-		raices_lst = []
-		for i in numeros_lst:
-			raices_lst.append( i ** (1/2) )
+		print("Generando lista de numeros ...")
+		numeros_lst = range(1, n+1)
+		# print("Creando lista de raices ...")
+		# raices_lst = []
+		# for i in numeros_lst:
+		# 	raices_lst.append( i ** (1/2) )
 
-		for i in raices_lst:  # [1,1.2xxx, 1.xxx, ...,3.xxx]
+		for i in numeros_lst:
 			print(i)
 
 
