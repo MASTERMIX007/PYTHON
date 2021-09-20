@@ -15,6 +15,14 @@ def obtiene_numero():
 
 	return numero
 
+def archivos_gen(n):
+	"""
+	Genera una lista de n elementos de nombres de archivos de la forma
+	file-0000000001.txt
+	"""
+	for i in range(1, n+1):
+		yield f"file-{i:010d}.txt"
+
 # Zona principal
 numero = obtiene_numero()
 if numero != None:
