@@ -421,6 +421,7 @@ El total de bytes es de 26745
 
 ```
 
+---
 **Ejercicio:** Modificar el script `pyls.py` para que la lista de archivos final incluyendo los tres campos sea obtenida por una función llamada `get_archivos(carpeta)`, luego en la zona principal usa la función y asigna el resultado a tu variable `lista`, elimina el código que ya no necesites en la zona principal. 
 
 Ejemplo de ejecución:
@@ -443,6 +444,7 @@ El total de bytes es de 26745
 Para más información acerca de la lista de módulos y la lista de funciones de cada módulo se puede consultar la documentación oficial de Python en:
 [https://docs.python.org/3/library/index.html](https://docs.python.org/3/library/index.html)
 
+
 ### Generadores
 
 Ya hemos usado generadores, como el caso de `range()`, así que nosotros podemos crear también nuestros generadores para eficientar la ejecución de nuestros programas y primero tenemos que saber que un generador en una función que regresa un valor, generalmente una lista, pero que en lugar de regresa toda la lista de golpe, va regresando elemento a elemento como lo hace `range()`.
@@ -459,108 +461,97 @@ def nombre_generador(arg1, arg2, ..., argn):
         yield -valor a regresar-
 ```
 
-Veamos como funcionaría un generador tomando como referencia como funcionaría una función primero:
-
-```python
-In [1]: # Creando la función que regresa una lista de `n` números elevado al cuadrado
-
-In [2]: def lista_al_cuadrado(n): 
-   ...:     """ Regresa una lista de números elevados al cuadrado hasta n """ 
-   ...:     lista_de_cuadrados = [] 
-   ...:     for i in range(1, n+1):
-   ...:         lista_de_cuadrados.append(i ** 2)
-   ...:     return lista_de_cuadrados
-   ...:                                                                         
-
-In [3]: lista_al_cuadrado(10)
-Out[3]: [1, 4, 9, 16, 25, 36, 42, 64, 91, 100]
-
-In [3]: numeros = lista_al_cuadrado(15)
-
-In [3]: numeros
-Out[3]: [1, 4, 9, 16, 25, 36, 42, 64, 91, 100, 121, 144, 169, 196, 225]
-
-In [3]: numeros = lista_al_cuadrado(10_000_000)
-
-In [3]: len(numeros)
-Out[3]: 10000000
-
-In [1]: # Creando un generador que genere una lista de `n` números elevado al cuadrado
-
-In [2]: def lista_al_cuadrado_g(n):
-   ...:     """ Regresa un generador de números elevados al cuadrado hasta n """ 
-   ...:     for i in range(1, n+1):
-   ...:         yield i ** 2
-   ...:                                                                         
-
-In [3]: lista_al_cuadrado_g(10)
-Out[3]: <generator object lista_al_cuadrado_g at 0x7feb1d538d50>
-
-In [3]: list(lista_al_cuadrado_g(15))
-Out[3]: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225]
-
-In [3]: numeros = lista_al_cuadrado_g(50)
-In [6]: numeros
-Out[6]: <generator object lista_al_cuadrado_g at 0x7feb1dd5b950>
-
-In [7]: for i in numeros:
-   ...:     print(i)
-   ...: 
-1
-4
-9
-...
-2304
-2401
-2500
-
-In [8]: for i in lista_al_cuadrado_g(1_000_000_000_000):
-   ...:     print(i)
-   ...: 
-1
-4
-9
-...
-```
-Es parecido a `range()` pero ahora con nuestro propio generador.
-
 ---
-**Ejemplo:** Vamos a modificar el script `pyls.py` para que la función de `get_archivos()` se convierta en un generador.
+**Ejemplo:** Vamos a crear el script `hola-generadores.py` que construya un generador que realice lo mismo que la función `range(a, b)` que genera los números en el intervalo de `a` hasta `b-1`.
 
-Ejemplo de ejecución:
+Ejemplo de ejecución para valores de `a=10` y `b=21`:
+
 ```sh
-$ ./pyls.py 
-      1038  17-09-2021  pyls-rt-funciones.py
-     20768  17-09-2021  readme.md
-       898  16-09-2021  crash-rt.py
-       679  17-09-2021  pyls-rt.py
-       517  16-09-2021  pyls.py
-      4096  15-09-2021  .ipynb_checkpoints
-       453  16-09-2021  no-crash-rt.py
-       467  16-09-2021  crash.py
-      1001  16-09-2021  crash-rt-raiz.py
-      1027  17-09-2021  pyls-rt-generadores.py
+$ python hola-generadores.py
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
 
-El total de bytes es de 30944
 ```
+Ahora si `a=100000` y b=`2100_000_000`, cuánto tarda en iniciar a imprimir la lista de número?
+
+Veamos como funcionaría un generador tomando como referencia como funcionaría una función primero
 
 ---
-**Ejercicio:** Crea un script llamado genera-archivos.py que reciba un número entero mayor que cero desde la línea de comando y genere tantos nombres de archivos como el valor de `n` y los nombres tendrán la forma `file-0000001.txt`, `file-0999999.txt` o `file-1000000.txt`
+** Ejemplo:** Crear el script `cuadrados-list.py` que imprima la lista de los cuadrados de los números en el rango de `a` hasta `b-1` creando una función llamada `range_cuadrados(a, b)`.
+
+Ejemplo de resultado para valores de `a=10` y `b=21`:
+```sh
+$ python cuadrados-list.py 
+100
+121
+144
+169
+196
+225
+256
+289
+324
+361
+400
+```
+
+**Nota:** Si el intervalo de números es muy grande es posible que tu computador colapse cuando la memoria RAM se agote.
+
+Ahora vamos a crear el script `cuadrados-gen.py` como una copia del script `cuadrados-list.py` y luego vamos a modificar la función `range_cuadrados(a, b)` para que se convierta en un generador.
+
+Ejemplo de ejecución con el mismo intervalo:
+```sh
+$ python cuadrados-gen-rt.py 
+100
+121
+144
+169
+196
+225
+256
+289
+324
+361
+400
+```
+
+Pero ahora podríamos definir el rango que se nos ocurra y el script va a generar la lista sin agostar la memoria RAM, sin embargo considera la desventaja de que si se necesitara ordenar los elementos de la lista sería imposible ya que se genera un elemento, se imprime y se pierde, entonces se pasa al siguiente número, se imprime y se pierde, así que no habría forma de compararlos para ir ordenandolos.
+
+Por ejemplo, si quicieramos aplicar un generador a la función que devuelve la lista de archivos en el script `pyls-2.py`, podría ser útil ya que se podrían procesar listas muy grandes de archivos, pero sólo si no se necesitara ordenar la lista de archivos, algo que seguramente si se va a requerir, así que el uso de generadores no aplicaría para nuestro script o al menos no en este momento.
+
+Así que vamos a aplicarlo creando un script diferente.
+
+---
+**Ejemplo:** Crea un script llamado genera-archivos.py que reciba un número entero mayor que cero desde la línea de comando y genere tantos nombres de archivos como el valor de `n` y los nombres tendrán la forma `file-0000001.txt`, `file-0999999.txt` o `file-1000000.txt`
 
 **Nota:** Recuerda hacer uso de funciones y generadores.
 
 Ejemplo de ejecución:
 
 ```sh
-$ ./genera_archivos.py 10
-file-0000001.txt
-file-0000002.txt
-file-0000003.txt
-...
-file-0000010.txt
+$ python genera-archivos.py 10
+file-0000000001.txt
+file-0000000002.txt
+file-0000000003.txt
+file-0000000004.txt
+file-0000000005.txt
+file-0000000006.txt
+file-0000000007.txt
+file-0000000008.txt
+file-0000000009.txt
+file-0000000010.txt
 ```
 
-Intenta generar la lista para 1000 millones, si has hecho uso correcto de generadores, tu equipo no debería de colapsar, de lo contrario prepárate para un desastre!
+Intenta generar la lista para 1 millón, si has hecho uso correcto de generadores, tu equipo no debería de colapsar, de lo contrario prepárate para un desastre!
 
 Adicionalmente si tuvieras las necesidad de almacenar la lista de archivos generada en un archivo podrías ejecutar el script de la forma:
 
@@ -674,11 +665,11 @@ observar que ahora en la ayuda ya existe la opción `-n` con el texto descriptiv
 ---
 **Ejemplo:** Vamos a realizar lo siguiente:
 
-1. Copiar el script `pyls.py` con el nombre `lss.py`
+1. Copiar el script `pyls-2.py` con el nombre `lss.py`
 2. Agregar un función `main()` que ejecute todo el código de la zona principal
-3. Incluir el uso del módulo `click`para que realice las mismas tareas pero haciendo uso del módulo `click`.
-4. La opción `--help` deberá proporcionar una descripción y ayuda del script.
-5. Corregir cualquier error que se presente.
+3. Converte este script en módulo
+4. Incluir el uso del módulo `click`para que realice las mismas tareas.
+5. La opción `--help` deberá proporcionar una descripción y ayuda del script.
 
 ```sh
 $ ./lss.py 
@@ -697,21 +688,6 @@ El total de bytes es de 30944
 
 $ ./lss.py --help
 Usage: lss.py [OPTIONS] [CARPETA]
-
-  Imprime en la salida estándar la lista de archivo de RUTA, si la ruta no
-  se indica se usa la carpeta actual.
-
-Options:
-  --help  Show this message and exit.
-
-$
-```
-
-Ahora copia el script a una ruta de ejecución (revisar la variable PATH) y crea un enlace simbólico con el nombre `lss` y ahora ejecuta el comando desde cualquier lugar:
-
-```
-$ lss --help
-Usage: lss [OPTIONS] [RUTA]
 
   Imprime en la salida estándar la lista de archivo de RUTA, si la ruta no
   se indica se usa la carpeta actual.
@@ -813,9 +789,78 @@ $ ./lss-rt.py --sort-size --reverse
 El total de bytes es de 17038559
 ```
 
-**Tip:** El uso de generadores no permite ordenar los elementos, así que se tiene que crear nuevamente la segunda lista de archivos y luego ordenarla. Para ordenar una lista de listas en base a un campo o elemento de las sublistas como el tamaño que está en la posición `1`, es necesario usar la función `sort()` en la forma:
+**Tip:** Para ordenar una lista de listas en base a un campo o elemento de las sublistas como el tamaño que está en la posición `1`, es necesario usar la función `sort()` en la forma:
 
 `lista.sort(key=lambda v: v[N])`
 
 donde `N` es el índice de la posición de la columna o elemento a usar para ordenar, por ejemplo usando un valor de `0` se ordenaría por nombre.
+
+### Manejo de errores
+
+En Python cuando ocurre un error, normalmente el programa se detiene y aparece una lista de mensajes de error devido a que estamos haciendo algo que no está permitido en el lenguaje y en Python estos errores se conocen como **Excepciones**.
+
+Es importante aprender a conocer y manejar las posibles excepciones de nuestros scripts para evitar que se *mueran* en medio de alguna operación y poder tomar una decisión o también para poder enviar un mensaje adecuado al usuario del porque se ha creado cierta excepción.
+
+Para el manejo de excepciones se hace uso de las instrucciones `try-except` de la siguiente manera:
+```python
+try:
+    Bloque de código
+    a validar donde podría
+    ocurrir una excepción.
+except NombreDeLaExcepcion1:
+    Bloque de código alternativo a ejecutar
+    si la excepción 1 indicada ocurre.
+except NombreDeLaExcepcion2:
+    Bloque de código alternativo a ejecutar
+    si la excepción 2 indicada ocurre.
+```
+
+Ahora vamos a ver como funciona con un peque ejemplo usando IPython:
+```python
+In [1]: a = int("10")                                                           
+
+In [2]: a                                                                       
+Out[2]: 10
+
+In [3]: a = int("10.5")                                                         
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+<ipython-input-3-6ecad8b0a0fb> in <module>
+----> 1 a = int("10.5")
+
+ValueError: invalid literal for int() with base 10: '10.5'
+
+In [7]: try: 
+   ...:     a = int("10.5") 
+   ...:     print(a) 
+   ...: except ValueError: 
+   ...:     print("Error: 10.5 no es un entero") 
+   ...:                                                                         
+Error: 10.5 no es un entero
+```
+
+---
+**Ejemplo:** Ahora vamos a modificar el script `lee_entero.py` para que realice las mismas funciones, pero el programa no lance excepsiones cuando algún ocurra y en su lugar aparezcan mensaje de error.
+  
+```sh
+$ python lee_entero.py
+Error: la forma de usar el script es: lee_entero.py NÚMERO
+
+$ python lee_entero.py uno
+Error: el valor proporcionado tiene que ser un número entero
+
+$ python lee_entero.py 10.5
+Error: el valor proporcioando tiene que ser un número entero
+
+```
+
+---
+**Ejercicio:** Ahora modifica el script `lss.py` para que cuando se indique el nombre de una carpeta que no existe no marque una excepción, si no que se imprima un mensaje de error indicando que la carpeta no existe.
+
+Ejemplo de ejecución:
+```sh
+$ ./lss.py aaa
+Error: la carpeta "aaa" no existe
+
+```
 
