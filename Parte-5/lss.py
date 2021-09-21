@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import click
+import csv
 import os
 import time
+import sys
 
 # zona de funciones
 def imprime_tabla(lista):
@@ -11,6 +13,11 @@ def imprime_tabla(lista):
 	for a_lst in lista:
 		# a_lst -> ["nombre", 12345, "fecha"]
 		print( f"{a_lst[1]:10}  {a_lst[2]:10}  {a_lst[0]}" )
+
+def imprime_csv(lista):
+	""" Imprime en la salida estándar la lista en formato CSV """
+	writer_csv = csv.writer(sys.stdout)  # el archivo de salida relacionado con la pantalla
+	writer_csv.writerows(lista)
 
 def get_archivos(carpeta, sort, reverse, sort_size):
 	""" Obtiene la lista de archivos de la carpeta y sus atributos """
@@ -44,14 +51,17 @@ def get_archivos(carpeta, sort, reverse, sort_size):
 @click.option("--sort", is_flag=True, help="Imprime la lista ordenada")
 @click.option("--reverse", is_flag=True, help="Imprime la lista ordenada descendentemente")
 @click.option("--sort-size", is_flag=True, help="Imprime la lista ordenada por tamaño")
+@click.option("--csv", "es_csv", is_flag=True, help="Imprime la lista en formato CSV")
 @click.argument("carpeta", default=".")
-def main(sort, reverse, sort_size, carpeta):
+def main(sort, reverse, sort_size, es_csv, carpeta):
 	"""
 	Imprime la lista de archivos de CARPETA en la salida estándar
 	"""
 	lista = get_archivos(carpeta, sort, reverse, sort_size)
 	if lista == None:
 		print(f"Error: la carpeta {carpeta} no existe!")
+	elif es_csv:
+		imprime_csv(lista)
 	else:
 		imprime_tabla(lista)
 

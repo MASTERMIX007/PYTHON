@@ -33,9 +33,21 @@ def imprime_txt(filas):
 
 def get_datos_xlsx(archivo):
     """ Obtiene la de filas de archivo en formato xlsx """
-    pass
+    wb_obj = openpyxl.load_workbook(archivo)  # abrir el libro de trabajo
+    # wb_obj <- representa el archivo en xlsx
+    sheet = wb_obj.active  # regresa la hoja de trabajo activa del documento
+    # sheet <- representa una hoja
+    filas = []  # <- guarda todas las filas de la hoja
+    for row in sheet.iter_rows():
+        fila = []  # <- guarda todas las celdas de la fila
+        for cell in row:
+            fila.append(cell.value)
+        filas.append(fila)
 
-    return []
+    return filas
+    
+
+# type=click.Path(exists=True) <- sirve para validar si el archivo a usar existe o no
 
 @click.command()
 @click.argument("archivo", type=click.Path(exists=True))
