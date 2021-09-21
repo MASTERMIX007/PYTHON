@@ -3,9 +3,9 @@
 - Archivos de texto
 - Archivos de texto estructurados (CSV)
 - Archivos binarios estructurados
-- Bases de datos relacionales (SQL)
 - Introducción a almacenamiento de datos NoSQL (JSON)
-
+- Bases de datos relacionales (SQL)
+- Programas y Procesos
 
 ### Archivos
 
@@ -93,25 +93,204 @@ mysql    /bin/false
 
 ### Archivos de texto estructurados (CSV)
 
-Nuestros módulos no necesariamente son estáticos ya que podemos continuar agregando funciones, en este caso vamos a hacer que el script imprima los resultados en la salida estándar, pero en un forma diferente, por ejemplo CSV.
+Uno de los archivos de texto estructurados que lleva años siendo usado son los archivos CSV (Comma Separator Values) y que pueden ser exportados o leídos por una multitud de sistemas, plataformas o programas, así que conviene conocer como manejar este tipo de formato desde Python.
+
+Estos archivos como ya se mencinó son archivos de texto, que representan información de forma tabular, así que cada línea representa un registro o fila de la tabla y este registro contiene generalmente columnas o valores que están relacionadas entre sí ya que representan propiedades de la misma entidad. Por ejemplo una fila podría representar un estado de la república mexicana y cada valor o columna represntario datos como nombre de estado, población, producto interno bruto, indice de natalidad, etc.
+
+Ejemplo:
+```csv
+id,name,Gender,Race,Alignment
+0,A-Bomb,Male,Human,good
+1,Abe Sapien,Male,Icthyo Sapien,good
+2,Abin Sur,Male,Ungaran,good
+3,Abomination,Male,Human / Radiation,bad
+4,Abraxas,Male,Cosmic Entity,bad
+5,Absorbing Man,Male,Human,bad
+6,Adam Monroe,Male,-,good
+7,Adam Strange,Male,Human,good
+8,Agent 13,Female,-,good
+9,Agent Bob,Male,Human,good
+10,Agent Zero,Male,-,good
+```
+
+Aunque estos archivos los podría leer y escribir usando las herramientas básicas de Python, hay una forma más simple y es usando el paquete `csv` que es parte de la librería estándar de Python.
+
+La documentación se puede consultar es: https://docs.python.org/3/library/csv.html
+
+Vamos a ver como funciona el módulo `csv` realizando algunas prácticas desde IPython leyendo los datos del archivo `datos/heroes_information-10.csv`:
+
+```python
+In [50]: import csv
+
+In [51]: with open("datos/heroes_information-10.csv", "r") as arch_txt:
+    ...:     reader_csv = csv.reader(arch_txt)
+    ...:     datos_list = list( reader_csv )
+    ...: 
+
+In [52]: datos_list
+Out[52]: 
+[['id', 'name', 'Gender', 'Race', 'Alignment'],
+ ['0', 'A-Bomb', 'Male', 'Human', 'good'],
+ ['1', 'Abe Sapien', 'Male', 'Icthyo Sapien', 'good'],
+ ['2', 'Abin Sur', 'Male', 'Ungaran', 'good'],
+ ['3', 'Abomination', 'Male', 'Human / Radiation', 'bad'],
+ ['4', 'Abraxas', 'Male', 'Cosmic Entity', 'bad'],
+ ['5', 'Absorbing Man', 'Male', 'Human', 'bad'],
+ ['6', 'Adam Monroe', 'Male', '-', 'good'],
+ ['7', 'Adam Strange', 'Male', 'Human', 'good'],
+ ['8', 'Agent 13', 'Female', '-', 'good'],
+ ['9', 'Agent Bob', 'Male', 'Human', 'good'],
+ ['10', 'Agent Zero', 'Male', '-', 'good']]
+
+In [53]: 
+```
+
+**Notas:**
+1. El resultado de leer un archivo CSV es una lista de sublistas, donde cada sublista representa una fila.
+2. Algunos archivos pueden contener una primera fila con las etiquetas de las columnas y no forman parte de los datos, en este caso si existe y deberá ignorarse por siblemente creando una sublista con `datos_list[1:]`
+3. Todas las filas o las sublistas, tiene siempre la misma cantidad de elementos, aunque algunos estén vacios o con valores representando nulos.
+4. Todos los datos leídos de un archivo CSV son de tipo texto, así que si se necesita una columna en algún tipo diferente habrá que convertirla.
+
+Ahora vamos a eliminar el Superheroe `Adam Monroe` y luego agregar a "Hulk" con lo datos "Male", "Human / Radiation", "good":
+
+```python
+In [53]: datos_list[7]
+Out[53]: ['6', 'Adam Monroe', 'Male', '-', 'good']
+
+In [54]: del( datos_list[7] )
+
+In [55]: datos_list.append( ["11", "Hulk", "Male", "Human / Radiation", "good"]
+    ...: )
+
+In [56]: datos_list
+Out[56]: 
+[['id', 'name', 'Gender', 'Race', 'Alignment'],
+ ['0', 'A-Bomb', 'Male', 'Human', 'good'],
+ ['1', 'Abe Sapien', 'Male', 'Icthyo Sapien', 'good'],
+ ['2', 'Abin Sur', 'Male', 'Ungaran', 'good'],
+ ['3', 'Abomination', 'Male', 'Human / Radiation', 'bad'],
+ ['4', 'Abraxas', 'Male', 'Cosmic Entity', 'bad'],
+ ['5', 'Absorbing Man', 'Male', 'Human', 'bad'],
+ ['7', 'Adam Strange', 'Male', 'Human', 'good'],
+ ['8', 'Agent 13', 'Female', '-', 'good'],
+ ['9', 'Agent Bob', 'Male', 'Human', 'good'],
+ ['10', 'Agent Zero', 'Male', '-', 'good'],
+ ['11', 'Hulk', 'Male', 'Human / Radiation', 'good']]
+
+In [57]: 
+```
+
+**Notas:** La forma de eliminar y agregar información es sólo una forma de hacerlo, dependerá de como estén estructurados los datos.
+
+Ahora vamos a guardar la información en el archivo `heroes-10.csv`, luego abre el archivo con Sublime Text y corrobora la información, también podrías abrir el archivo con una hoja de cálculo como Libre Calc o Google Sheet o Excel y corrobora la información.
+
+```python
+In [57]: with open("datos/heroes-10.csv", "w", newline="") as escritor_txt:
+    ...:     writer_csv = csv.writer(escritor_txt)
+    ...:     writer_csv.writerows(datos_list)
+    ...: 
+
+In [58]: cat datos/heroes-10.csv
+id,name,Gender,Race,Alignment
+0,A-Bomb,Male,Human,good
+1,Abe Sapien,Male,Icthyo Sapien,good
+2,Abin Sur,Male,Ungaran,good
+3,Abomination,Male,Human / Radiation,bad
+4,Abraxas,Male,Cosmic Entity,bad
+5,Absorbing Man,Male,Human,bad
+7,Adam Strange,Male,Human,good
+8,Agent 13,Female,-,good
+9,Agent Bob,Male,Human,good
+10,Agent Zero,Male,-,good
+11,Hulk,Male,Human / Radiation,good
+
+In [59]: 
+```
 
 ---
-**ACTIVIDAD:** Vamos a modificar el script `archivos.py` para agregar la función `imprime_csv()` que imprima la lista de archivos en la salida estándar en formato CSV haciendo uso de la opción `--csv`
+**Ejemplo:** Vamos a modificar el script `lss.py` para agregar la función `imprime_csv()` que imprima la lista de archivos en la salida estándar en formato CSV haciendo uso de la opción `--csv`
 
 Ejemplo de ejecución:
 ```sh
-$ python archivos.py --csv
-profile,512
-sistema.sh,1024
-procedimiento.pdf,123456
-get_pass.pl,65324
-
-$ 
+$ ./lss.py --csv
+./lss.py,1759,21-09-2021
+./lss-rt.py,2052,21-09-2021
+./readme.md,23726,21-09-2021
+./datos,4096,21-09-2021
+./imprime_passwd.py,751,21-09-2021
+./.ipynb_checkpoints,4096,21-09-2021
 ```
 
-### Archivos en formato JSON
+También se podría redireccionar la salidar estándar a un archivo y luego abrir éste archivo con alguna hoja de cálculo.
 
-Hasta el momento hemos estado manejando archivos de tipo texto plano o archivos en formato CSV que también son archivos de texto, pero que siguen siertas reglas, ahora vamos a revisar otro tipo de formato de archivos de texto conocido como JSON y que también es muy usado para el intercambio de información.
+**Ejemplo:** Crear el script `grep-csv.py [N:TEXTO] ARCHIVO` para que realice:
+1. Imprima en la salida estándar las líneas de ARCHIVO
+2. Sólo imprime las filas cuya columna N coincida con texto
+3. Si la columna N y el TEXTO no se proporcionan, entonces se imprimen todas las filas.
+
+Ejemplo de ejecución:
+```sh
+$ ./grep-csv-rt.py datos/Base\ Datos\ xls\ -\ 14\ Sep.\ 2021\,\ 00\ Hs.\ 52\ min.csv HOSPITALMUJER
+2646,Troncal sip2,Issabel,HOSPITALMUJER,HMEMN '2646',10.200.51.2,"14 Sep. 2021, 00 Hs. 52 min"
+2670,Troncal sip2,Issabel,HOSPITALMUJER,HMEMN '_267[0-9]',10.200.51.2,"14 Sep. 2021, 00 Hs. 52 min"
+2671,Troncal sip2,Issabel,HOSPITALMUJER,HMEMN '_267[0-9]',10.200.51.2,"14 Sep. 2021, 00 Hs. 52 min"
+2672,Troncal sip2,Issabel,HOSPITALMUJER,HMEMN '_267[0-9]',10.200.51.2,"14 Sep. 2021, 00 Hs. 52 min"
+2673,Troncal sip2,Issabel,HOSPITALMUJER,HMEMN '_267[0-9]',10.200.51.2,"14 Sep. 2021, 00 Hs. 52 min"
+2674,Troncal sip2,Issabel,HOSPITALMUJER,HMEMN '_267[0-9]',10.200.51.2,"14 Sep. 2021, 00 Hs. 52 min"
+2675,Troncal sip2,Issabel,HOSPITALMUJER,HMEMN '_267[0-9]',10.200.51.2,"14 Sep. 2021, 00 Hs. 52 min"
+2676,Troncal sip2,Issabel,HOSPITALMUJER,HMEMN '_267[0-9]',10.200.51.2,"14 Sep. 2021, 00 Hs. 52 min"
+2677,Troncal sip2,Issabel,HOSPITALMUJER,HMEMN '_267[0-9]',10.200.51.2,"14 Sep. 2021, 00 Hs. 52 min"
+2678,Troncal sip2,Issabel,HOSPITALMUJER,HMEMN '_267[0-9]',10.200.51.2,"14 Sep. 2021, 00 Hs. 52 min"
+2679,Troncal sip2,Issabel,HOSPITALMUJER,HMEMN '_267[0-9]',10.200.51.2,"14 Sep. 2021, 00 Hs. 52 min"
+```
+
+**Ejemplo/Ejercicio:** Modifica el script `grep-csv.py [N:TEXTO] ARCHIVO` para que realice una operación definida por los alumnos.
+
+
+### Archivos binarios estructurados
+
+La mayoría de los archivos creados por aplicaciones que no son editores de código guardan la información en archivos binarios que tienen una estructura establecida por la organización creadora del software y puede ser una estructura con licencia abierta, donde todos pueden consultar un documento con la estructura o pueder ser privativo, donde sólo la empresa y quienes tengan autorizado conocen el formato de estos archivos.
+
+Un caso muy usado son los archivos con extensión `.xlsx` que genera la aplicación Excel y que un formato binario para almacenar hojas de cálculo.
+
+Para poder abrir, leer, escribir o modoficar archivos binarios se necesita de encontrar el módulo adecuado que permita manipular los datos binarios, o en su caso, si no existe será necesario crearlo, ya sea siguiendo alguna documentación o mediante ingeniería inversa.
+
+Por ejemplo, para poder abrir y leer la información en el archivo `datos/Base Datos xls - 14 Sep. 2021, 00 Hs. 52 min.xlsx` será necesario hacer uso del paquete `openpyxl` que no es parte de la librería estándar, por lo tanto es necesario realizar la instalación con el comando:
+
+```sh
+$ pip install openpyxl
+Collecting openpyxl
+  Downloading openpyxl-3.0.8-py2.py3-none-any.whl (244 kB)
+     |████████████████████████████████| 244 kB 238 kB/s 
+Collecting et-xmlfile
+  Using cached et_xmlfile-1.1.0-py3-none-any.whl (4.7 kB)
+Installing collected packages: et-xmlfile, openpyxl
+Successfully installed et-xmlfile-1.1.0 openpyxl-3.0.8
+```
+
+**Ejemplo:** Crear el script `cat-xlsx.py ARCHIVO` que imprime el contenido de ARCHIVO en formato binario XLSX.
+
+Ejemplo de salida:
+```sh
+$ ./cat-xlsx-rt.py datos/Base\ Datos\ xls\ -\ 14\ Sep.\ 2021\,\ 00\ Hs.\ 52\ min.xlsx
+DID   TIPO                      Modelo                      UNIDAD                                              PARTITION/RUTA SALIDA                                    IP PBX         REGISTRO                   
+1000  extensiones sip2                                      RESERVADA                                                                                                                                              
+1001  extensiones sip2                                      MESA DE ENTRADA CECOM                                                                                                                                  
+1002  Troncal sip2              Issabel                     HMR_XII_RM                                          HMR_XIIRM '_100[2-4]'                                    10.45.135.5    14 Sep. 2021, 00 Hs. 52 min
+1003  Troncal sip2              Issabel                     HMR_XII_RM                                          HMR_XIIRM '_100[2-4]'                                    10.45.135.5    14 Sep. 2021, 00 Hs. 52 min
+1004  Troncal sip2              Issabel                     HMR_XII_RM                                          HMR_XIIRM '_100[2-4]'                                    10.45.135.5    14 Sep. 2021, 00 Hs. 52 min
+1005  Troncal sip2              Elastix                     a_SIP_ESG                                           ESC_SUP_GRRA '_100[5-8]'                                 10.7.168.3     14 Sep. 2021, 00 Hs. 52 min
+1006  Troncal sip2              Elastix                     a_SIP_ESG                                           ESC_SUP_GRRA '_100[5-8]'                                 10.7.168.3     14 Sep. 2021, 00 Hs. 52 min
+1007  Troncal sip2              Elastix                     a_SIP_ESG                                           ESC_SUP_GRRA '_100[5-8]'                                 10.7.168.3     14 Sep. 2021, 00 Hs. 52 min
+1008  Troncal sip2              Elastix                     a_SIP_ESG                                           ESC_SUP_GRRA '_100[5-8]'                  
+```
+
+Con la información contenida en una lista de sublistas es posible procesar la información como si de un archivo csv se tratara.
+
+
+### Introducción a almacenamiento de datos NoSQL (JSON)
+
+Hasta el momento hemos estado manejando archivos de tipo texto plano o archivos en formato CSV que también son archivos de texto, pero que siguen ciertas reglas o estructura, ahora vamos a revisar otro tipo de formato de archivos de texto conocido como JSON y que también es muy usado para el intercambio de información.
 
 Para simplificar la manipulación de archivos en formato JSON en Python existe el módulo `json` y su documentación puede ser consultada en:
 
@@ -172,6 +351,7 @@ El módulo `json` al importar datos desde JSON a Python realiza las siguientes c
 - object -> dict
 
 Ahora veamos como se realiza la importación usando IPython e inicamos copiando los datos en una variable de tipo texto o `str`:
+
 ```python
 In [2]: datos_json = """ 
    ...: [ 
@@ -227,13 +407,6 @@ In [7]:
 ```
 Se ha hecho uso de la función `json.loads(-variabel de texto-)` del módulo `json` y lo que hace es cargar o importar una cadena con datos en formato JSON y transformarlo en tipos de datos Python, el resultado puede ser guardado en una variable, en este caso la variable `datos`
 
-Ahora vamos a indagar que tipos de datos tenemos y como podermos acceder a ellos.
-```python
-In [7]: type(datos)                                                             
-Out[7]: list
-
-In [8]: 
-```
 Como la variable `datos` es una lista, entonces podemos acceder a sus elementos mediante un índice o mediante un ciclo `for`:
 ```python
 In [8]: datos[0]                                                                
@@ -261,60 +434,12 @@ In [10]: for elemento in datos:
 
 In [11]:  
 ```
-Se puede observar que cada elemento de datos corresponde a los datos del registro de una tarea, así que ahora vamos a analizar el primer elemento de la lista:
-```python
-In [11]: tarea = datos[0]                                                       
-
-In [12]: type(tarea)                                                            
-Out[12]: dict
-
-In [13]: tarea                                                                  
-Out[13]: 
-{'id': 1,
- 'tarea': 'Comprar pan de muerto',
- 'terminada': False,
- 'fecha_creada': '2020-10-20',
- 'fecha_terminada': ''}
-
-In [14]:  
-```
-Entonces nuestra variable `tarea` es de tipo `dict` y al imprimir su contenido vemos que tiene las llaves:
-- `id` que es el identificador de cada tarea
-- `tarea` que es la descripción de la tarea
-- `fecha_creada` que es la fecha en que fué agregada
-- `fecha_terminada` que es cuando la tarea fué finalizada
-
-Así que ahora podríamos obtener cada valor de cada una de las llaves o incluso modificar alguno de los valores si fuera necesario:
-```python
-In [20]: tarea["id"]                                                            
-Out[20]: 1
-
-In [21]: tarea["tarea"]                                                         
-Out[21]: 'Comprar pan de muerto'
-
-In [22]: tarea["terminada"]                                                     
-Out[22]: False
-
-In [23]: print("{id:02} | {terminada:5} | {tarea}".format(**tarea))             
-01 |     0 | Comprar pan de muerto
-
-In [24]: tarea["terminada"] = True                                              
-
-In [25]: print("{id:02} | {terminada:5} | {tarea}".format(**tarea))             
-01 |     1 | Comprar pan de muerto
-
-In [24]: tarea["terminada"] = True                                              
-
-In [29]: print("{id:02} | {terminada!s:5} | {tarea}".format(**tarea))           
-01 | True  | Comprar pan de muerto
-
-```
 
 ---
-**ACTIVIDAD** Crea el script `lee-json.py NOMBRE` para que lea el contenido del archivo NOMBRE en formato JSON y lo imprima en la salida estándar.
+**Ejemplo:** Crea el script `lee-json.py NOMBRE` para que lea el contenido del archivo NOMBRE en formato JSON y lo imprima en la salida estándar.
 
 ```sh
-$ python lee-json.py anime.json
+$ python lee-json.py datos/anime.json
 Usage: lee-json.py [OPTIONS] NOMBRE
 
   Lee el contenido de NOMBRE en formato JSON y lo imprime en la salida
@@ -323,7 +448,7 @@ Usage: lee-json.py [OPTIONS] NOMBRE
 Options:
   --help  Show this message and exit.
 
-$ python lee-json.py anime.json 
+$ ./lee-json.py anime.json 
 {
     "data": [
         {
@@ -343,6 +468,7 @@ $ python lee-json.py anime.json
 
 $
 ```
+
 También se podría haber usando el módulo `json` de forma directa:
 ```sh
 $ python -m json.tool anime.json 
@@ -365,32 +491,32 @@ $ python -m json.tool anime.json
 
 $
 ```
-O sea que con sólo tener Python instalado se puede imprimir de forma indentada un archivos en formato JSON, pero si se dea realizar alguna tarea a nivel datos de esta forma no es posible, pero Python siempre al servicio de la comunidad!.
 
 ---
-**ACTIVIDAD** Crea el script `anime-json.py` para que lea el contenido del archivo `anime.json` e imprima en la salida estándar el `id`, `título` y `link poster original`
+**Ejemplo:** Crea el script `anime-json.py` para que lea el contenido del archivo `anime.json` e imprima en la salida estándar el `id`, `título` y `link poster original`
 
 ```sh
-$ python anime-json.py
+$ ./anime-json.py
 id: 1
 titulo: Cowboy Bebop
 Poster original: https://media.kitsu.io/anime/poster_images/1/original.jpg?1431697256
 ```
+
 Y como actividad adicional, podrías abrir el link a la imagen para ver el poster!
 
 ---
-**RETO** Modifica el script `anime-json.py` para que incluya el link de la portada original.
+**Ejercicio:** Modifica el script `anime-json.py` para que incluya el link de la portada original.
 
 ```sh
-$ python anime-json.py
+$ ./anime-json.py
 id: 1
 titulo: Cowboy Bebop
 Poster original: https://media.kitsu.io/anime/poster_images/1/original.jpg?1431697256
 Portada original: https://media.kitsu.io/anime/cover_images/1/original.jpg?1416336000
 ```
+
 Y como actividad adicional, podrías abrir el link a la imagen para ver la portada!
 
----
 ---
 ### Convirtiendo archivos de formato CSV a JSON
 
@@ -438,7 +564,7 @@ Generar el archivo en formato JSON con la siguiente estructura (la estructura, n
 Donde las llaves de los objetos son los nombres de las columnas obtenidos del primer registro del archivo.
 
 ---
-**ACTIVIDAD**: Crea el script `csvtojson.py NOMBRE` que lea el contenido de un archivo de texto en formato CSV y lo transforme a un archivos en formato JSON.
+**Ejemplo:** Crea el script `csvtojson.py NOMBRE` que lea el contenido de un archivo de texto en formato CSV y lo transforme a un archivos en formato JSON.
 
 ```sh
 $ python csvtojson.py  --latin-1 datos/covid19-cdmx.csv
@@ -448,7 +574,7 @@ $
 ```
 
 ---
-**RETO**: Crea el script `jsontocsv.py NOMBRE` que lea el contenido de un archivo de texto en formato JSON y lo transforme a un archivos en formato CSV.
+**Ejercicio:** Crea el script `jsontocsv.py NOMBRE` que lea el contenido de un archivo de texto en formato JSON y lo transforme a un archivos en formato CSV.
 
 Notas:
 - Se seugiere usar el archivo creado en la actividad anterior, así que tu objetivo es obtener el archivo `covid19-cdmx.csv` por lo que sería bueno que el original lo renombres a `covid19-cdmx.1.csv` para que puedas comprobar tus resultados.
@@ -464,7 +590,3 @@ $
 ```
 Compara tus resultados con el archivo original.
 
----
-**SUPER-RETO**: Que pasaría si el archivo original en formato CSV o JSON fueran muy grandes que no se puedan procesar sólo en memoria. ¿Habría alguna forma en que se pueda procesar de forma más óptima la conversiones no importando si el archivo tiene 1KByte o 1TByte?
-
-Modifica uno o ambos scripts creados con anterioridad para hacer uso eficiente de la memoria.
